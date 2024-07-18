@@ -15,7 +15,13 @@ public class Application {
 		//service.getAllEmps();
 		//service.getEmpsByDept("Tech");
 		//service.getEmpsByGender("M");
-		service.getEmpsByGenderAndDept("M","Tech");
+		//service.getEmpsByGenderAndDept("M","Tech");
+		//service.getEmpsBySalary(40000.00f);
+
+		//service.get2AllEmpRecords();
+//		service.getEmpsWithPagination(3,1);
+
+		service.getEmpsByQBE();
 	}
 
 

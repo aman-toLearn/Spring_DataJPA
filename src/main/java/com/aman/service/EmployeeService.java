@@ -2,6 +2,10 @@ package com.aman.service;
 
 import com.aman.entity.Employee;
 import com.aman.repository.EmployeeRepo;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,7 +22,91 @@ public class EmployeeService {
 //        System.out.println(this.employeeRepo.getClass().getName());
     }
 
+    //custom queries
+    public void getAllEmpRecords(){
+
+
+        Iterable<Employee> all = employeeRepo.findAll();
+        all.forEach(System.out::println);
+    }
+
+    public void get2AllEmpRecords(){
+
+        Sort sort = Sort.by("empId").descending();
+
+        Iterable<Employee> all = employeeRepo.findAll(sort);
+        all.forEach(System.out::println);
+    }
+
+    // taking the column name as a input by which we want to sort
+//                  Sorting
+    public void get3AllEmpRecords(String column){
+
+        Sort sort = Sort.by(column).descending();
+
+        Iterable<Employee> all = employeeRepo.findAll(sort);
+        all.forEach(System.out::println);
+
+
+    }
+//              Paging
+    public  void getEmpsWithPagination(int pageSize,int pageNo){
+
+        PageRequest of = PageRequest.of(pageNo-1, pageSize);
+
+        Page<Employee> findAll = employeeRepo.findAll(of);
+        List<Employee> content = findAll.getContent();
+        content.forEach(System.out::println);
+
+
+    }
+
+
+//          QBE   query by example
+
+
+
+public void getEmpsByQBE(){
+
+    Employee employee = new Employee();
+    employee.setEmpDept("Tech");
+    employee.setEmpId(1);
+
+              // this employee/entity object we need to convert to Example object
+    Example<Employee> employeeExample = Example.of(employee);
+
+    List<Employee> all = employeeRepo.findAll(employeeExample);
+    all.forEach(e-> System.out.println(e));
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //finder method
+
+    public  void getEmpsBySalary(float salary){
+        List<Employee> emps = employeeRepo.findByEmpSalaryGreaterThanEqual(salary);
+        emps.forEach(System.out::println);
+    }
 
     public void getEmpsByGenderAndDept(String gender , String dept){
         List<Employee> byempGenderAndempDept = employeeRepo.findByEmpGenderAndEmpDept(gender, dept);
